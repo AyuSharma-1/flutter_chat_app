@@ -31,7 +31,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       _socketService.socket.on(
         'newMessage',
         (data) => {
-          print("step1 - receive: $data"),
           add(ReceivedMessageEvent(data)),
         },
       );
@@ -45,16 +44,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     try {
-      print("Socket connected: ${_socketService.isConnected}");
       final newMessage = {
         'conversationId': event.conversationId,
         'content': event.content,
         'senderId': event.userId,
       };
-      print("Sending message: $newMessage");
       _socketService.socket.emit('sendMessage', newMessage);
     } catch (e) {
-      print("Send message error: $e");
       emit(ChatErrorState(e.toString()));
     }
   }
@@ -63,8 +59,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     ReceivedMessageEvent event,
     Emitter<ChatState> emit,
   ) async {
-    print("step2 - receive: ${event.message}");
-
     final message = MessageEntity(
       id: event.message['_id'] ?? '',
       conversationId: event.message['conversationId'] ?? '',

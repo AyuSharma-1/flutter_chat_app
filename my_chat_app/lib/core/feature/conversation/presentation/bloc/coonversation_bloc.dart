@@ -16,8 +16,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     emit(ConversationLoading());
     try {
       final conversation = await fetchConversationUseCase();
-      print("conversation");
-      print(conversation);
       emit(ConversationLoaded(conversation));
     } catch (e) {
       emit(ConversationError("Failed to fetch conversations 234"));

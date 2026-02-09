@@ -24,7 +24,6 @@ class _ChatPageState extends State<ChatPage> {
     String Id = await _storage.read(key: 'userId') ?? '';
     setState(() {
       userId = Id;
-      print("userId: $userId");
     });
   }
 

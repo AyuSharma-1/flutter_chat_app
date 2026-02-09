@@ -17,10 +17,7 @@ class SocketService {
     if (_isInitialized) return;
 
     String token = await _storage.read(key: 'token') ?? '';
-    print(
-      'Socket: Initializing with token: ${token.isNotEmpty ? "present" : "missing"}',
-    );
-
+  
     _socket = IO.io(
       'http://localhost:5000',
       IO.OptionBuilder()
