@@ -5,16 +5,8 @@ import { fetchConversations, createConversation } from "../controller/conversati
 
 const router = Router();
 
-/**
- * GET /api/conversations
- * Get all conversations for logged-in user
- */
 router.get("/", verifyToken, fetchConversations);
 
-/**
- * POST /api/conversations
- * Create a new conversation with another user
- */
 router.post("/", verifyToken, createConversation);
 
 export default router;

@@ -1,5 +1,6 @@
 import Conversation from "../models/conversationModel";
 import { Request, Response } from "express";
+import userModel from "../models/userModel";
 
 export const createConversation = async (req: Request, res: Response) => {
   try {
@@ -51,37 +52,63 @@ export const createConversation = async (req: Request, res: Response) => {
   }
 };
 
+// export const fetchConversations = async (req: Request, res: Response) => {
+//   try {
+//     if (!req.user) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+
+//     const userID = req.user.id;
+
+//     const conversations = await Conversation.find({
+//       participants: userID,
+//     })
+//       .populate({
+//         path: "participants",
+//         select: "username email",
+//         match: { _id: { $ne: userID } },
+//       })
+//       .populate({
+//         path: "lastMessage",
+//         select: "content createdAt senderId",
+//       })
+//       .sort({ updatedAt: -1 });
+
+//     return res.status(200).json({
+//       success: true,
+//       conversations,
+//     });
+//   } catch (error) {
+//     console.error("Conversation fetch error:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch conversations 345",
+//     });
+//   }
+// }
+
+
 export const fetchConversations = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const userID = req.user.id;
+    const userId = req.user.id;
 
-    const conversations = await Conversation.find({
-      participants: userID,
-    })
-      .populate({
-        path: "participants",
-        select: "username email",
-        match: { _id: { $ne: userID } },
-      })
-      .populate({
-        path: "lastMessage",
-        select: "content createdAt senderId",
-      })
-      .sort({ updatedAt: -1 });
+    const users = await userModel.find({
+      _id: { $ne: userId },
+    }).select("username email");
 
     return res.status(200).json({
       success: true,
-      conversations,
+      users,
     });
   } catch (error) {
-    console.error("Conversation fetch error:", error);
+    console.error("Fetch users error:", error);
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch conversations 345",
+      message: "Failed to fetch users",
     });
   }
-}
+};

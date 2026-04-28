@@ -89,6 +89,7 @@ class _ConversationPageState extends State<ConversationPage> {
                         itemCount: state.conversations.length,
                         itemBuilder: (context, index) {
                           final conversation = state.conversations[index];
+                          print(conversation);
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -131,7 +132,11 @@ class _ConversationPageState extends State<ConversationPage> {
       contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       leading: CircleAvatar(
         radius: 30,
-        backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+        child: Text(
+          name[0].toUpperCase(),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        // backgroundImage: NetworkImage('https://via.placeholder.com/150'),
       ),
       title: Text(
         name,
@@ -153,7 +158,14 @@ class _ConversationPageState extends State<ConversationPage> {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            child: Text(
+              name[0].toUpperCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            // backgroundImage: NetworkImage('https://via.placeholder.com/150'),
           ),
           SizedBox(height: 5),
           Text(name, style: Theme.of(context).textTheme.bodyMedium),
